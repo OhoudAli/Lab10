@@ -24,9 +24,9 @@ public class JobApplicationService {
         return jobApplicationRepository.findAll();
     }
 
-    public void addJobApplication(JobApplication jobApplication){
-        jobApplicationRepository.save(jobApplication);
-    }
+//    public void addJobApplication(JobApplication jobApplication){
+//        jobApplicationRepository.save(jobApplication);
+//    }
 
 
     public Boolean applyForJob(JobApplication jobApplication){
@@ -39,9 +39,9 @@ public class JobApplicationService {
             return false;
         }
 
-
-        jobApplication.setJobPostId(jobPost);
-        jobApplication.setUserId(user);
+//        JobApplication jobApplication1 = new JobApplication();
+        jobApplication.setJobPostId(jobPost.getId());
+        jobApplication.setUserId(user.getId());
         jobApplicationRepository.save(jobApplication);
         return true;
 
