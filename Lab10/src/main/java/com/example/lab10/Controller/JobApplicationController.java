@@ -48,7 +48,10 @@ public class JobApplicationController {
 
 
     @PostMapping("/apply")
-    public ResponseEntity applyForJob(@RequestBody JobApplication jobApplication) {
+    public ResponseEntity applyForJob(@RequestBody JobApplication jobApplication, Errors errors) {
+        if(errors.hasErrors()){
+            return ResponseEntity.status(400).body(errors.getFieldError().getDefaultMessage());
+        }
         boolean isApplied = jobApplicationService.applyForJob(jobApplication);
         if (isApplied) {
             return ResponseEntity.status(200).body(new ApiResponse("apply successfully"));
@@ -58,10 +61,13 @@ public class JobApplicationController {
     }
 
     @DeleteMapping("/withdraw")
-    public ResponseEntity<String> withdrawJobApplication(@RequestParam Integer userId, @RequestParam Integer jobPostId) {
-        boolean isWithdrawn = jobApplicationService.withdrawJob(userId, jobPostId);
+    public ResponseEntity withdrawJobApplication(@RequestBody JobApplication jobApplication ,Errors errors) {
+        if(errors.hasErrors()){
+            return ResponseEntity.status(400).body(errors.getFieldError().getDefaultMessage());
+        }
+        boolean isWithdrawn = jobApplicationService.withdrawJob(jobApplication);
         if (isWithdrawn) {
-            return ResponseEntity.ok("Job application withdrawn successfully.");
+            return ResponseEntity.status(200).body(new ApiResponse("Job application withdrawn successfully."));
         } else {
             return ResponseEntity.status(400).body("Job application not found.");
         }
